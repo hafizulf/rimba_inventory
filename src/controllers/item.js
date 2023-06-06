@@ -3,20 +3,26 @@ const table = 'items';
 
 const findAll = () => {
   return async (req, res) => {
-    try {
-      const items = await db.select().table(table);
+    const items = await db.select().table(table);
 
-      res.render('item/list', {
-        items,
-        title: 'List Items',
-        layout: 'layouts/main',
-      });
-    } catch (error) {
-      res.send('<h1>Internal Server Error</h1>');
-    }
+    res.render('item/list', {
+      items,
+      title: 'List Items',
+      layout: 'layouts/main',
+    });
+  };
+};
+
+const saveForm = () => {
+  return (req, res) => {
+    res.render('item/save', {
+      title: 'Save Item',
+      layout: 'layouts/main',
+    });
   };
 };
 
 module.exports = {
   findAll,
+  saveForm,
 };
