@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mt-4">
+      <h2>Daftar Item</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nama Item</th>
+            <th scope="col">Unit</th>
+            <th scope="col">Stok</th>
+            <th scope="col">Harga Satuan</th>
+            <th scope="col">Barang</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(items.length < 1) { %>
+          <tr>
+            <td colspan="6">
+              <div class="alert alert-danger fw-bold" role="alert">
+                Tidak ada data item
+              </div>
+            </td>
+          </tr>
+          <% } %> <% items.forEach((item, index) => { %>
+          <tr>
+            <th scope="row"><%= index+1 %></th>
+            <td><%= item.nama_item %></td>
+            <td><%= item.unit %></td>
+            <td><%= item.stok %></td>
+            <td><%= item.harga_satuan %></td>
+            <td><%= item.barang %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
