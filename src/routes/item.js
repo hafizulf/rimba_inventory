@@ -1,8 +1,12 @@
 const express = require('express');
-const item = require('../controllers/item');
+const { itemCheck } = require('../middleware/item.validator');
+const { findAll, saveForm, save } = require('../controllers/item');
 
 const router = express.Router();
 
-router.get('/', item.findAll()).get('/save', item.saveForm());
+router
+  .get('/', findAll())
+  .get('/save', saveForm())
+  .post('/save', itemCheck(), save());
 
 module.exports = router;

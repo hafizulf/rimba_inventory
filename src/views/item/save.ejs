@@ -1,6 +1,16 @@
-<div class="row mt-4">
+<div class="row my-4">
   <div class="col-md-8">
     <h2>Add new item</h2>
+
+    <% if(typeof errors !== 'undefined') { %>
+    <div class="alert alert-danger m-1" role="alert">
+      <ul>
+        <% errors.forEach((error) => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <% } %>
 
     <form action="/items/save" method="post">
       <div class="form-group">
@@ -10,12 +20,11 @@
           class="form-control"
           name="nama_item"
           id="nama_item"
-          required
         />
       </div>
       <div class="form-group">
         <label for="unit">Unit</label>
-        <select name="unit" class="custom-select" id="unit" required>
+        <select name="unit" class="custom-select" id="unit">
           <option value="" selected>-- Choose --</option>
           <option value="kg">KG</option>
           <option value="pcs">PCS</option>
@@ -23,13 +32,7 @@
       </div>
       <div class="form-group">
         <label for="stok">Stok</label>
-        <input
-          type="number"
-          class="form-control"
-          name="stok"
-          id="stok"
-          required
-        />
+        <input type="number" class="form-control" name="stok" id="stok" />
       </div>
       <div class="form-group">
         <label for="harga_satuan">Harga Satuan</label>
@@ -38,7 +41,6 @@
           class="form-control"
           name="harga_satuan"
           id="harga_satuan"
-          required
         />
       </div>
       <div class="form-group">

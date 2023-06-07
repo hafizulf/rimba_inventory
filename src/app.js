@@ -1,12 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const itemRoutes = require('./routes/item');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    cookie: { maxAge: 3000 },
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
 
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
