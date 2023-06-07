@@ -1,5 +1,4 @@
 const model = require('../models/item');
-const { validationResult } = require('express-validator');
 
 const findAll = () => {
   return async (req, res) => {
@@ -25,20 +24,13 @@ const saveForm = () => {
 
 const save = () => {
   return async (req, res) => {
-    let errors = validationResult(req);
+    const data = req.body;
+    if (req.file) data.barang = req.file.filename;
 
-    if (!errors.isEmpty()) {
-      res.render('item/save', {
-        title: 'Save Item',
-        layout: 'layouts/main',
-        errors: errors.array(),
-      });
-    } else {
-      await model.save(req.body);
+    await model.save(data);
 
-      req.flash('msg', 'Item has been created');
-      res.redirect('/items');
-    }
+    req.flash('msg', 'Item has been created');
+    res.redirect('/items');
   };
 };
 

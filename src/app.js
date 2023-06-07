@@ -3,11 +3,13 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const flash = require('connect-flash');
+const path = require('path');
 
 const itemRoutes = require('./routes/item');
 
 const app = express();
 
+// app.use(express.static(path.join(__dirname, '../public/uploads')));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({

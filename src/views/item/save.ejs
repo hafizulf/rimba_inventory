@@ -12,7 +12,7 @@
     </div>
     <% } %>
 
-    <form action="/items/save" method="post">
+    <form action="/items/save" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="nama_item">Nama Item</label>
         <input
@@ -20,11 +20,12 @@
           class="form-control"
           name="nama_item"
           id="nama_item"
+          required
         />
       </div>
       <div class="form-group">
         <label for="unit">Unit</label>
-        <select name="unit" class="custom-select" id="unit">
+        <select name="unit" class="custom-select" id="unit" required>
           <option value="" selected>-- Choose --</option>
           <option value="kg">KG</option>
           <option value="pcs">PCS</option>
@@ -32,7 +33,13 @@
       </div>
       <div class="form-group">
         <label for="stok">Stok</label>
-        <input type="number" class="form-control" name="stok" id="stok" />
+        <input
+          type="number"
+          class="form-control"
+          name="stok"
+          id="stok"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="harga_satuan">Harga Satuan</label>
@@ -41,11 +48,18 @@
           class="form-control"
           name="harga_satuan"
           id="harga_satuan"
+          required
         />
       </div>
       <div class="form-group">
         <label for="barang">Barang</label>
-        <input type="file" class="form-control" name="barang" id="barang" />
+        <input
+          type="file"
+          class="form-control"
+          name="barang"
+          id="barang"
+          required
+        />
       </div>
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
