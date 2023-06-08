@@ -1,6 +1,6 @@
 const model = require('../models/item');
 
-const findAll = () => {
+module.exports.findAll = () => {
   return async (req, res) => {
     const items = await model.findAll();
 
@@ -13,7 +13,7 @@ const findAll = () => {
   };
 };
 
-const saveForm = () => {
+module.exports.saveForm = () => {
   return (req, res) => {
     res.render('item/save', {
       title: 'Save Item',
@@ -22,7 +22,7 @@ const saveForm = () => {
   };
 };
 
-const save = () => {
+module.exports.save = () => {
   return async (req, res) => {
     const data = req.body;
     if (req.file) data.barang = req.file.filename;
@@ -32,10 +32,4 @@ const save = () => {
     req.flash('msg', 'Item has been created');
     res.redirect('/items');
   };
-};
-
-module.exports = {
-  findAll,
-  saveForm,
-  save,
 };
