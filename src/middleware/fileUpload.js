@@ -5,7 +5,7 @@ const moment = require('moment');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '../../public/uploads/items');
+    const dir = path.join(__dirname, `../../public/uploads${req.baseUrl}`);
 
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
@@ -14,7 +14,9 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    const originalName = file.originalname.replace(/ /g, '');
+    const originalName = file.originalname
+      .replace(/ /g, '')
+      .toLocaleLowerCase();
     const date = moment(new Date()).format('DDMMYYYYHHmmss');
 
     cb(null, `${date}-${originalName}`);

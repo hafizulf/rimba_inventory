@@ -13,11 +13,23 @@ module.exports.findAll = () => {
   };
 };
 
-module.exports.save = () => {
+module.exports.saveForm = () => {
   return (req, res) => {
     res.render('customer/save', {
       title: 'Save Customer',
       layout: 'layouts/main',
     });
+  };
+};
+
+module.exports.save = () => {
+  return async (req, res) => {
+    const data = req.body;
+    if (req.file) data.ktp = req.file.filename;
+
+    await model.save(data);
+
+    req.flash('msg', 'Customer has been created');
+    res.redirect('/customers');
   };
 };
