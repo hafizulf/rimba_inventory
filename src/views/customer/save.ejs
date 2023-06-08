@@ -1,0 +1,100 @@
+<div class="row my-4">
+  <div class="col-md-12">
+    <h2>Add new customer</h2>
+
+    <% if(typeof errors !== 'undefined') { %>
+    <div class="alert alert-danger m-1" role="alert">
+      <ul>
+        <% errors.forEach((error) => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="/customers/save" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md">
+          <div class="form-group">
+            <label for="nama">Nama</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nama"
+              id="nama"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="contact">Contact</label>
+            <input
+              type="text"
+              class="form-control"
+              name="contact"
+              id="contact"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              id="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="alamat">Alamat</label>
+            <input
+              type="text"
+              class="form-control"
+              name="alamat"
+              id="alamat"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md">
+          <div class="form-group">
+            <label for="diskon">Diskon</label>
+            <input
+              type="text"
+              class="form-control"
+              name="diskon"
+              id="diskon"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="tipe_diskon">Tipe Diskon</label>
+            <select
+              name="tipe_diskon"
+              class="custom-select"
+              id="tipe_diskon"
+              required
+            >
+              <option value="" selected>-- Choose --</option>
+              <option value="persentase">Persentase</option>
+              <option value="fix diskon">Fix Diskon</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ktp">KTP</label>
+            <input
+              type="file"
+              class="form-control"
+              name="ktp"
+              id="ktp"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -12,3 +12,12 @@ module.exports.findAll = () => {
     });
   };
 };
+
+module.exports.save = () => {
+  return (req, res) => {
+    res.render('customer/save', {
+      title: 'Save Customer',
+      layout: 'layouts/main',
+    });
+  };
+};
