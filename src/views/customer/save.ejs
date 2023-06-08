@@ -103,3 +103,18 @@
     </form>
   </div>
 </div>
+
+<script>
+  const diskon = document.getElementById('diskon');
+  const tipe_diskon = document.getElementById('tipe_diskon');
+
+  tipe_diskon.addEventListener('change', (e) => {
+    if (e.target.value === 'persentase') {
+      diskon.setAttribute('max', 100);
+      diskon.setAttribute('placeholder', 'cth. 10');
+    } else {
+      diskon.removeAttribute('max');
+      diskon.setAttribute('placeholder', 'cth. 100000');
+    }
+  });
+</script>
