@@ -1,8 +1,8 @@
 const express = require('express');
-const { saveForm } = require('../controllers/sales');
+const { saveForm, save } = require('../controllers/sales');
 
 const router = express.Router();
 
-router.get('/save', saveForm());
+router.get('/save', saveForm()).post('/save', save());
 
 module.exports = router;

@@ -2,16 +2,6 @@
   <div class="col-md-12">
     <h2>Add new sales</h2>
 
-    <% if(typeof errors !== 'undefined') { %>
-    <div class="alert alert-danger m-1" role="alert">
-      <ul>
-        <% errors.forEach((error) => { %>
-        <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
-    </div>
-    <% } %>
-
     <form action="/sales/save" method="post">
       <div class="row">
         <div class="col-md">
@@ -84,14 +74,7 @@
             </div>
             <div class="form-group col-md-2">
               <label for="stok">Stok</label>
-              <input
-                type="number"
-                class="form-control"
-                name="stok"
-                id="stok"
-                value="0"
-                readonly
-              />
+              <input type="number" class="form-control" id="stok" readonly />
             </div>
             <div class="form-group col-md-2">
               <label for="qty">Qty</label>
@@ -164,6 +147,12 @@
   // Generate random code transaksi
   const codeTransaksi = document.getElementById('code_transaksi');
   codeTransaksi.value = Math.random().toString(36).substring(2, 8);
+
+  // Set tanggal transaksi value and max value to today
+  const tanggalTransaksi = document.getElementById('tanggal_transaksi');
+  const today = new Date().toISOString().split('T')[0];
+  tanggalTransaksi.value = today;
+  tanggalTransaksi.max = today;
 
   // Get diskon customer when customer_id changed
   const customers = JSON.parse('<%- JSON.stringify(customers) %>');
