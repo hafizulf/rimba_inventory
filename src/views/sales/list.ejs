@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>Daftar Sales</h2>
+        </div>
+
+        <div class="col-md">
+          <a href="/sales/save" class="btn btn-primary float-right">
+            Tambah Sales
+          </a>
+        </div>
+      </div>
+
+      <% if (msg.length > 0) { %>
+      <div class="alert alert-success my-2" role="alert"><%= msg %></div>
+      <% } %>
+
+      <table class="table mt-2">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Item</th>
+            <th scope="col">Code Trx</th>
+            <th scope="col">Tgl Trx</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Diskon</th>
+            <th scope="col">Total Harga</th>
+            <th scope="col">Total Bayar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(sales.length < 1) { %>
+          <tr>
+            <td colspan="8">
+              <div class="alert alert-danger fw-bold" role="alert">
+                Tidak ada data sales
+              </div>
+            </td>
+          </tr>
+          <% } %> <% sales.forEach((sale, index) => { %>
+          <tr>
+            <th scope="row"><%= index+1 %></th>
+            <td><%= sale.nama_customer %></td>
+            <td><%= sale.nama_item %></td>
+            <td><%= sale.code_transaksi %></td>
+            <td>
+              <%= sale.tanggal_transaksi.toLocaleString().split(',')[0] %>
+            </td>
+            <td><%= sale.qty %></td>
+            <td><%= sale.total_diskon %></td>
+            <td><%= sale.total_harga %></td>
+            <td><%= sale.total_bayar %></td>
+          </tr>
+
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

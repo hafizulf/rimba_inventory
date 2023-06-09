@@ -34,3 +34,16 @@ module.exports.save = () => {
       });
   };
 };
+
+module.exports.findAll = () => {
+  return async (req, res) => {
+    const sales = await model.findAll();
+
+    res.render('sales/list', {
+      sales,
+      title: 'Sales',
+      layout: 'layouts/main',
+      msg: req.flash('msg'),
+    });
+  };
+};
