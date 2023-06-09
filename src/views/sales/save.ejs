@@ -1,0 +1,251 @@
+<div class="row my-4">
+  <div class="col-md-12">
+    <h2>Add new sales</h2>
+
+    <% if(typeof errors !== 'undefined') { %>
+    <div class="alert alert-danger m-1" role="alert">
+      <ul>
+        <% errors.forEach((error) => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="/sales/save" method="post">
+      <div class="row">
+        <div class="col-md">
+          <div class="form-row">
+            <div class="form-group col-md">
+              <label for="code_transaksi">Code Transaksi</label>
+              <input
+                type="text"
+                class="form-control"
+                name="code_transaksi"
+                id="code_transaksi"
+                required
+              />
+            </div>
+            <div class="form-group col-md">
+              <label for="tanggal_transaksi">Tanggal Transaksi</label>
+              <input
+                type="date"
+                class="form-control"
+                name="tanggal_transaksi"
+                id="tanggal_transaksi"
+                value="2021-01-01"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label for="customer_id">Customer</label>
+              <select
+                name="customer_id"
+                class="custom-select"
+                id="customer_id"
+                required
+              >
+                <option value="" selected>-- Choose --</option>
+                <% customers.forEach((customer) => { %>
+                <option value="<%= customer.customer_id %>">
+                  <%= customer.nama %>
+                </option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="tipe_diskon">Tipe Diskon</label>
+              <input
+                type="text"
+                class="form-control"
+                id="tipe_diskon"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label for="item_id">Item</label>
+              <select
+                name="item_id"
+                class="custom-select"
+                id="item_id"
+                required
+              >
+                <option value="" selected>-- Choose --</option>
+                <% items.forEach((item) => { %>
+                <option value="<%= item.item_id  %>">
+                  <%= item.nama_item %>
+                </option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="stok">Stok</label>
+              <input
+                type="number"
+                class="form-control"
+                name="stok"
+                id="stok"
+                value="0"
+                readonly
+              />
+            </div>
+            <div class="form-group col-md-2">
+              <label for="qty">Qty</label>
+              <input
+                type="number"
+                class="form-control"
+                name="qty"
+                id="qty"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-group">
+            <label for="total_diskon">Total Diskon</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                name="total_diskon"
+                id="total_diskon"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="total_harga">Total Harga</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                name="total_harga"
+                id="total_harga"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="total_bayar">Total Bayar</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                name="total_bayar"
+                id="total_bayar"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Generate random code transaksi
+  const codeTransaksi = document.getElementById('code_transaksi');
+  codeTransaksi.value = Math.random().toString(36).substring(2, 8);
+
+  // Get diskon customer when customer_id changed
+  const customers = JSON.parse('<%- JSON.stringify(customers) %>');
+  const customerId = document.getElementById('customer_id');
+  const customerTipeDiskon = document.getElementById('tipe_diskon');
+
+  let customerDiskon = 0;
+  let tipeDiskon = '';
+  customerId.addEventListener('change', () => {
+    const customer = customers.find(
+      (customer) => customer.customer_id == customerId.value
+    );
+
+    customerDiskon = customer.diskon;
+    tipeDiskon = customer.tipe_diskon;
+    customerTipeDiskon.value = tipeDiskon;
+  });
+
+  // Get stok item when item_id changed
+  const items = JSON.parse('<%- JSON.stringify(items) %>');
+  const itemId = document.getElementById('item_id');
+  const stok = document.getElementById('stok');
+
+  let hargaSatuan = 0;
+  itemId.addEventListener('change', () => {
+    if (customerId.value == '') {
+      alert('Pilih customer terlebih dahulu');
+      itemId.value = '';
+      return;
+    }
+
+    const item = items.find((item) => item.item_id == itemId.value);
+    stok.value = item.stok;
+
+    hargaSatuan = item.harga_satuan; // set harga satuan
+  });
+
+  // Validate qty with stok item and calculate total diskon
+  const qty = document.getElementById('qty');
+  const totalDiskon = document.getElementById('total_diskon');
+
+  qty.addEventListener('change', () => {
+    if (itemId.value == '') {
+      alert('Pilih item terlebih dahulu');
+      qty.value = 0;
+      return;
+    }
+
+    if (parseInt(qty.value) < 1) {
+      alert('Qty minimal 1');
+      qty.value = 0;
+      return;
+    }
+
+    if (parseInt(qty.value) > parseInt(stok.value)) {
+      alert('Stok tidak mencukupi');
+      qty.classList.add('is-invalid');
+      qty.value = 0;
+      totalDiskon.value = 0;
+    } else {
+      qty.classList.remove('is-invalid');
+
+      if (tipeDiskon === 'persentase') {
+        totalDiskon.value = (hargaSatuan * qty.value * customerDiskon) / 100;
+      } else {
+        totalDiskon.value = hargaSatuan * qty.value - totalDiskonValue;
+      }
+
+      calculateTotalHarga(); // call function calculateTotalHarga
+    }
+  });
+
+  function calculateTotalHarga() {
+    const totalHarga = document.getElementById('total_harga');
+    totalHarga.value = hargaSatuan * qty.value;
+
+    calculateTotalBayar(); // call function calculateTotalBayar
+  }
+
+  function calculateTotalBayar() {
+    const totalBayar = document.getElementById('total_bayar');
+    totalBayar.value = hargaSatuan * qty.value - totalDiskon.value;
+    return;
+  }
+</script>

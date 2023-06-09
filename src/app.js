@@ -7,6 +7,7 @@ const path = require('path');
 
 const itemRoutes = require('./routes/item');
 const customerRoutes = require('./routes/customer');
+const saleRoutes = require('./routes/sales');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(expressLayouts);
 
 app.use('/items', itemRoutes);
 app.use('/customers', customerRoutes);
+app.use('/sales', saleRoutes);
 
 app.use((req, res) => {
   res.status(404).send('<h1> Page Not Found </h1>');
